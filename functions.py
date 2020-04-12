@@ -74,3 +74,13 @@ def shortest_path(AdjM, A, B):
         for i in range(100*len(AdjM.index)):
             distance.append(random_path(A,B,AdjM))
         return(min(distance))
+
+    
+# check whether the dates are incessant or not
+def check_missing(date_list):
+    time = [str_to_day(dd) for dd in date_list]
+    if time[-1]-time[0]+1=len(time):
+        return(True)
+    else:
+        return(False)
+#
