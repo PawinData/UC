@@ -47,7 +47,7 @@ def day_to_str(DAY):
 # randomly walk to an adjacent county from the current county
 def random_step(Now, AdjM):
     options = list()
-    for node in AdjM:
+    for node in AdjM.index:
         if AdjM[Now][node]==1:
             options.append(node)
     return(random.choice(options))
