@@ -3,35 +3,38 @@ import random
 
 # convert a date from string to integer (number of days observed since Jan 25, 2020)
 def str_to_day(DATE):
+    # extract month and day from the string
     month = re.findall('^2020-([0-9]+)-', DATE)
     month = int(month[0])
     day = re.findall('^2020-[0-9]+-([0-9]+)', DATE)
     day = int(day[0])
+    # how many days in each month of 2020
+    calendar = {1:31, 2:29, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+    # compute the number of days since Jan 25, 2020, when the first case was confirmed in South California
     if month==1:
         DAY = day - 25 + 1
-    elif month==2:
-        DAY = 7 + day 
-    elif month==3:
-        DAY = 7 + 29 + day
     else:
-        DAY = 7 + 29 + 31 + day 
+        DAY = 7 + day 
+        for mm in range(2,month):
+            DAY += calendar[mm]
     return DAY
 
 
 # convert a date from integer to string
 def day_to_str(DAY):
+     # how many days in each month of 2020
+    calendar = {1:31, 2:29, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31}
+    # compute month and day of a date
+    month = 1
     if DAY<=7:
-        month = 1
         day = 25 + DAY - 1 
-    elif DAY<=36:
-        month = 2
-        day = DAY - 7
-    elif DAY<=67:
-        month = 3
-        day = DAY - 36
     else:
-        month = 4
-        day = DAY - 67
+        DAY -= 7
+        while DAY>0:
+            month += 1
+            DAY -= calendar[month]
+        DAY += calendar[month]
+    # formulate the string
     month = str(month)
     day = str(day)
     if int(day)<10:
