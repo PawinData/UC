@@ -1,6 +1,4 @@
-import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from functions import str_to_day, day_to_str
 
 # plot the Temporal and Spatial structures of a DataFrame
@@ -45,7 +43,7 @@ def plot_Tempo_Spatio(DF, DistanceMatrix):
             h[d] = h.get(d1,0) + 1
             s[d] = s.get(d,0) + abs(DF[date][A] - DF[date][B])
      
-    lst = list(H_1.keys())
+    lst = list(h.keys())
     lst.sort()
     
     fig, axs = plt.subplots(2, figsize=(10,20))
