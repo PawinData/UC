@@ -1,6 +1,8 @@
 import re
 import random
 import math
+import numpy as np
+from sys import exit
 
 # convert a date from string to integer (the kth day in 2020)
 def str_to_day(DATE):
@@ -104,3 +106,52 @@ def cut_DF(DF, date):
             break
         lst.append(element)
     return(DF[lst])
+    
+    
+    
+# generate P from distance matrix and h 
+def generate_P(D, h):
+    # D: distance matrix
+    # h: control the degree of spatial correlation
+    if not D.shape[0]==D.shape[1]:
+        print("D is not a distance matrix.")
+        exit()
+    N = D.shape[0]
+    P = np.zeros([N, N**2])      # P is an N-by-N^2 matrix
+    for i in range(N):
+        for j in range(N):
+            if not i==j:
+                P[i, j + N*(i-1)] = D[i,j]**(-h)
+                P[j, j + N*(i-1)] = -D[i,j]**(-h)
+    return(P)
+    
+    
+    
+# generate Q 
+def generate_Q(K, lam):
+    Q = np.zeros([K, K-1])   # Q is a K-by-(K-1) matrix
+    for k in range(K-1):
+        Q[k, k] = lam
+        Q[k+1,k] = -lam
+    return(Q)
+    
+    
+# soft thresholding operator
+def S(A, alpha):
+    # A is a matrix
+    # alpha is a scalar threshold
+    if alpha<0:
+        print("alpha has to be non-negative.")
+        exit()
+    B = np.zeros(A.shape)
+    rows, cols = A.shape
+    for i in range(rows):
+        for j in range(cols):
+            ele = A[i,j]
+            if ele > alpha:
+                B[i,j] = ele - alpha
+            elif ele < -alpha:
+                B[i,j] = ele + alpha
+            else:
+                B[i,j] = 0
+    return(B)
