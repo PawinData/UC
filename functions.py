@@ -88,21 +88,25 @@ def check_missing(date_list):
         
         
 # compute the squared magnitude of a vector
-def MSE(vector):
+def RMSE(error_vector):
     M = 0
-    for ele in vector:
+    for ele in error_vector:
         M += ele**2
-    M /= len(vector)
+    M /= len(error_vector)
+    M = math.sqrt(M)
     return(M)
     
     
     
-# split the dataframe until a certain date
-def cut_DF(DF, date):
+# cut out the dataframe within a certain time window
+def cut_DF(DF, start, end):
     lst = list()
-    day = str_to_day(date)
+    Start = str_to_day(start)
+    End = str_to_day(end)
     for element in DF.columns:
-        if str_to_day(element)>day:
+        if str_to_day(element)<Start:
+            continue
+        if str_to_day(element)>End:
             break
         lst.append(element)
     return(DF[lst])
