@@ -1,0 +1,10 @@
+#/Server/sim/Data.py
+/Data/BAK
+
+# Logs
+#logs
+#*.log
+#npm-debug.log*
+#yarn-error.log*
+#yarn-debug.log*
+
