@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from functions import magnitude
+from scipy.linalg import norm
 from sys import exit
 
 def obj_func(Phi, Y, D):
@@ -22,8 +22,7 @@ def obj_func(Phi, Y, D):
         exit()
         
     T = len(Phi) - 1
-    N = Y.shape[0]
-    K = Y.shape[1]
+    N,K = Y.shape
     c = Phi[0] * np.ones((N,1))
     
     loss = 0
@@ -33,14 +32,14 @@ def obj_func(Phi, Y, D):
         for tau in range(1,T+1):
             y = Y[:, j-tau].reshape((N,1))
             v = v - Phi[tau] * D.dot(y)
-        loss += magnitude(v)
+        loss += norm(v)
     return(loss / (K-T))
     
     
     
 # find the parameters Phi that minimize the object function of STAR    
 def STAR_pm(Y, D, T):
-    phi = np.random.normal(loc=0, scale=5, size=T+1)
+    phi = np.random.normal(loc=0, scale=1, size=T+1)
     result = minimize(obj_func, x0=phi, args=(Y,D,), )
     if not result.success:
         print("No convergence. Try again.")
@@ -56,8 +55,7 @@ def STAR_predict(Y, D, Phi):
         print("Invalid Function Parameters.")
         exit() 
         
-    N = Y.shape[0]
-    K = Y.shape[1]
+    N,K = Y.shape
     T = len(Phi) - 1
     
     Y_new = Phi[0] * np.ones((N,1))
@@ -76,7 +74,7 @@ def STAR_analysis(Y, D, T):
         print("Invalid Function Parameters.")
         exit() 
     K = Y.shape[1]
-    Y_true = Y[:,K-1]
+    Y_true = Y[:,-1]
     Y = Y[:,:K-1]
     Y_pred = STAR_predict(Y, D, Phi=STAR_pm(Y,D,T)).flatten()
-    return(magnitude(Y_pred - Y_true))
+    return(norm(Y_pred - Y_true))
