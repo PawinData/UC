@@ -14,19 +14,30 @@ def plot_Tempo_Spatio(DF, DistanceMatrix):
                 START[cnty] = str_to_day(date)
                 break
     
+    t = [str_to_day(date) for date in DF.columns]
     H = dict()   # a histogram of pairwise delta t
     S = dict()   # sum of pairwise differences over all delta t
+    '''
     for cnty in DF.index:               # loop through every county
-    for t1 in range(START[cnty],1+str_to_day(t[-1])): 
-        day1 = day_to_str(t1)            # for every two days
-        for t2 in range(START[cnty],1+str_to_day(t[-1])):# compute the |diff| in number of new cases
-            delta = abs(t1 - t2)
-            if delta==0:
-                continue
-            day2 = day_to_str(t2)
-            H[delta] = H.get(delta,0) + 1    # count records (to compute average)
-            # add up total |diff|
-            S[delta] = S.get(delta,0) + abs(DF[day1][cnty] - DF[day2][cnty])
+        for t1 in range(START[cnty],1+t[-1]): 
+            day1 = day_to_str(t1)            # for every two days
+            for t2 in range(START[cnty],1+t[-1]):# compute the |diff| in number of new cases
+                delta = abs(t1 - t2)
+                if delta==0:
+                    continue
+                day2 = day_to_str(t2)
+                H[delta] = H.get(delta,0) + 1    # count records (to compute average)
+                # add up total |diff|
+                S[delta] = S.get(delta,0) + abs(DF[day1][cnty] - DF[day2][cnty])
+    '''
+    for cnty in DF.index:
+        for date1 in DF.columns:
+            for date2 in DF.columns:
+                if date1==date2:
+                    continue
+                delta = abs(str_to_day(date1) - str_to_day(date2))
+                H[delta] = H.get(delta,0) + 1
+                S[delta] = S.get(delta,0) + abs(DF[date1][cnty] - DF[date2][cnty])
             
     LST = list(H.keys())
     LST.sort()
@@ -37,11 +48,11 @@ def plot_Tempo_Spatio(DF, DistanceMatrix):
     for date in DF.columns:
         for A in DF.index:
             for B in DF.index:
-            if A==B:
-                continue
-            d = DistanceMatrix[A][B]
-            h[d] = h.get(d1,0) + 1
-            s[d] = s.get(d,0) + abs(DF[date][A] - DF[date][B])
+                if A==B:
+                    continue
+                d = DistanceMatrix[A][B]
+                h[d] = h.get(d,0) + 1
+                s[d] = s.get(d,0) + abs(DF[date][A] - DF[date][B])
      
     lst = list(h.keys())
     lst.sort()

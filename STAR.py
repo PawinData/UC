@@ -1,12 +1,14 @@
 import numpy as np
 from scipy.optimize import minimize
 from scipy.linalg import norm
+from functions import RMSE
 from sys import exit
 
-def obj_func(Phi, Y, D):
+def obj_func(Phi, Y, D, h):
 
     # Y is the N-by-K target matrix (array)
-    # D is the N-by-N "distance" matrix (array)
+    # D is the N-by-N distance matrix (array)
+    # h controls the degree of spatial correlation
     # Phi = [Phi_0, Phi_1, ... , Phi_T] is the vector of parameters (list or ndarray)
     
     if not D.shape[0]==D.shape[1]:
@@ -25,6 +27,12 @@ def obj_func(Phi, Y, D):
     N,K = Y.shape
     c = Phi[0] * np.ones((N,1))
     
+    # transform D
+    for i in range(N):
+        for j in range(N):
+            if not D[i,j]==0:
+                D[i,j] = float(D[i,j])**(-h)
+    
     loss = 0
     for j in range(T,K):
         y = Y[:,j].reshape((N,1))
@@ -38,9 +46,9 @@ def obj_func(Phi, Y, D):
     
     
 # find the parameters Phi that minimize the object function of STAR    
-def STAR_pm(Y, D, T):
+def STAR_pm(Y, D, T, h):
     phi = np.random.normal(loc=0, scale=1, size=T+1)
-    result = minimize(obj_func, x0=phi, args=(Y,D,), )
+    result = minimize(obj_func, x0=phi, args=(Y,D,h), )
     if not result.success:
         print("No convergence. Try again.")
         exit()
@@ -68,13 +76,13 @@ def STAR_predict(Y, D, Phi):
     
     
 # predict the final day from the previous K-1 days
-# compare truth with prediction
-def STAR_analysis(Y, D, T):
+# compare truth with prediction and output RMSE
+def STAR_analysis(Y, D, T, h):
     if (not D.shape[0]==D.shape[1]) or (not Y.shape[0]==D.shape[0]):
         print("Invalid Function Parameters.")
         exit() 
     K = Y.shape[1]
     Y_true = Y[:,-1]
     Y = Y[:,:K-1]
-    Y_pred = STAR_predict(Y, D, Phi=STAR_pm(Y,D,T)).flatten()
-    return(norm(Y_pred - Y_true))
+    Y_pred = STAR_predict(Y, D, Phi=STAR_pm(Y,D,T,h)).flatten()
+    return(RMSE(Y_pred - Y_true))

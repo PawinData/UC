@@ -1,5 +1,5 @@
 import numpy as np
-from numpy.random import rand, randint
+from numpy.random import rand, randint, normal
 from scipy.linalg import norm
 from time import process_time
 from functions import generate_P, generate_Q, S
@@ -59,11 +59,11 @@ def ADMM(X, Y, D, h, lam, rou, gamma, eps):
 
     
     pre = 99999999999     # initialize parameters
-    W = rand(K,M,N)
-    E = rand(K, M, N**2)
-    U = rand(K, M, N**2)
-    F = rand(M, K-1, N)
-    V = rand(M, K-1, N)
+    W = normal(loc=0, scale=1, size=(K,M,N))
+    E = normal(loc=0, scale=1, size=(K, M, N**2))
+    U = normal(loc=0, scale=1, size=(K, M, N**2))
+    F = normal(loc=0, scale=1, size=(M, K-1, N))
+    V = normal(loc=0, scale=1, size=(M, K-1, N))
     now = L(W, E, F, U, V)
     
     num_iter = 0

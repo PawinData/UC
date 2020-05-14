@@ -1,6 +1,7 @@
 import re
 import random
 import math
+import pickle
 import numpy as np
 from sys import exit
 
@@ -125,8 +126,8 @@ def generate_P(D, h):
     for i in range(N):
         for j in range(N):
             if not i==j:
-                P[i, j + N*(i-1)] = D[i,j]**(-h)
-                P[j, j + N*(i-1)] = -D[i,j]**(-h)
+                P[i, j + N*(i-1)] = float(D[i,j])**(-h)
+                P[j, j + N*(i-1)] = -float(D[i,j])**(-h)
     return(P)
     
     
@@ -159,3 +160,12 @@ def S(A, alpha):
             else:
                 B[i,j] = 0
     return(B)
+    
+    
+    
+# obtain feature arrays within certain time window from path
+def obtain_Features(path, start, end):
+    D = pickle.load(open(path,"rb"))   # a dictionary of (date, feature dataframe)
+    time_window = [day_to_str(day) for day in range(str_to_day(start), 1+str_to_day(end))]  # a list of dates
+    X = np.array([D[date].to_numpy() for date in time_window])
+    return(X)
