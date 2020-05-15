@@ -126,8 +126,8 @@ def generate_P(D, h):
     for i in range(N):
         for j in range(N):
             if not i==j:
-                P[i, j + N*(i-1)] = float(D[i,j])**(-h)
-                P[j, j + N*(i-1)] = -float(D[i,j])**(-h)
+                P[i, j + N*i] = float(D[i,j])**(-h)
+                P[j, j + N*i] = -float(D[i,j])**(-h)
     return(P)
     
     
