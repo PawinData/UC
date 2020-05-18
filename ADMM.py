@@ -2,11 +2,12 @@ import numpy as np
 from numpy.random import rand, randint, normal
 from scipy.linalg import norm
 from time import process_time
+from collections import namedtuple
 from functions import generate_P, generate_Q, S
 
 
 
-def ADMM(X, Y, D, h, lam, rou, gamma, eps):
+def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-2)):
 	# X is a 3D array: X.shape = (K,M,N)
 	# Y is a 2D array: Y.shape = (N,K)
 	# D is an N-by-N distance matrix
@@ -58,7 +59,7 @@ def ADMM(X, Y, D, h, lam, rou, gamma, eps):
         return(col1 + col2 + col3)
 
     
-    pre = 99999999999     # initialize parameters
+    pre = 0     # initialize parameters
     W = normal(loc=0, scale=1, size=(K,M,N))
     E = normal(loc=0, scale=1, size=(K, M, N**2))
     U = normal(loc=0, scale=1, size=(K, M, N**2))
@@ -67,7 +68,7 @@ def ADMM(X, Y, D, h, lam, rou, gamma, eps):
     now = L(W, E, F, U, V)
     
     num_iter = 0
-    while norm(pre - now) >= eps and num_iter<100*N*K:
+    while norm(pre - now) >= eps and num_iter<1000*N*K:
         pre = now
         k = randint(0,K)
         n = randint(0,N) 
@@ -81,7 +82,17 @@ def ADMM(X, Y, D, h, lam, rou, gamma, eps):
         
     t2 = process_time()
     
-    results = {"iterations":num_iter, "optimized loss":now, "optimized weights":W, "time":(t2-t1)}
+    Results = namedtuple("Results", ["iterations", "Loss", "Weights", "time"])
+    res = Results(num_iter, now, W, t2-t1)
     
-    return(results)
+    #results = {"iterations":num_iter, "optimized loss":now, "optimized weights":W, "time":(t2-t1)}
     
+    return(res)
+
+
+# Test
+X = normal(loc=0, scale=1, size=(100,30,9))
+Y = normal(loc=0, scale=1, size=(9,100))
+D = rand(9,9)
+res = ADMM(X,Y,D)
+print(res)
