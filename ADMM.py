@@ -7,7 +7,7 @@ from functions import generate_P, generate_Q, S
 
 
 
-def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-4)):
+def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-5)):
 	# X is a 3D array: X.shape = (K,M,N)
 	# Y is a 2D array: Y.shape = (N,K)
 	# D is an N-by-N distance matrix
