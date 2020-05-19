@@ -57,7 +57,7 @@ def plot_Tempo_Spatio(DF, DistanceMatrix):
     lst = list(h.keys())
     lst.sort()
     
-    fig, axs = plt.subplots(2, figsize=(10,20))
+    fig, axs = plt.subplots(1,2, figsize=(20,10))
     fig.suptitle("Tempo-Spatial Correlation", fontsize=25)
 
     # the subplot for Intra-Region Temporal Correlation
