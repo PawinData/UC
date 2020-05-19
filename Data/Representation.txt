@@ -1,0 +1,19 @@
+Representation 
+
+01-03-2020 - 25-04-2020	(55 days)
+
+
+VISITATION (495 if all 9 counties represented)
+Food (494), 
+Gas Stations (370),
+Grocery (485),  
+Outdoors & Recreation (493), 
+Shops & Services (485),
+School (330),
+Medical (376)
+Professional & Other Places (420)
+Nightlife Spots (298)
+
+WEATHERDATA
+Temperature (01-01-2020 - 02-05-2020)
+Precipitation (01-01-2020 - 04-05-2020)
