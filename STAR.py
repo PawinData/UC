@@ -3,6 +3,7 @@ from scipy.optimize import minimize
 from scipy.linalg import norm
 from functions import RMSE
 from sys import exit
+from collections import namedtuple
 
 def obj_func(Phi, Y, D, h):
 
@@ -86,3 +87,52 @@ def STAR_analysis(Y, D, T, h):
     Y = Y[:,:K-1]
     Y_pred = STAR_predict(Y, D, Phi=STAR_pm(Y,D,T,h)).flatten()
     return(RMSE(Y_pred - Y_true))
+    
+    
+    
+    
+    
+# pipeline everything above into a Class (STAR model)
+class STAR:
+    def __init__(self):
+        print("A STAR model is constructed.")
+    
+    def fit(self, Y, D, h, T):
+        self.coef = STAR_pm(Y, D, T, h)
+        self.data = Y
+        self.distance = D
+        self.lags = T 
+        self.spatio_degree = h
+   
+    def get_params(self):
+        Coef = namedtuple("Coefficients", ["Phi_"+str(j) for j in range(1+self.lags)])
+        return(Coef(*self.coef))
+    
+    def predict(self):
+        self.pred = STAR_predict(self.data, self.distance, self.coef).flatten()
+    
+    def analysis(self):
+        self.rmse = STAR_analysis(self.data, self.distance, self.lags, self.spatio_degree)
+        
+    def __del__(self):
+        print("This STAR model is destructed.")
+    
+        
+       
+# test
+Y = np.random.rand(9,100)
+D = np.random.randint(0,5,(9,9))
+h = 1
+T = 2
+Phi = STAR_pm(Y,D,T,h)
+print(Phi)
+model = STAR()
+model.fit(Y,D,h,T)
+phi = model.get_params()
+print(phi)
+model.predict()
+model.analysis()
+print(model.coef)
+print(model.pred)
+print(model.rmse)
+    

@@ -3,6 +3,7 @@ from scipy.optimize import lsq_linear
 from sys import exit
 from ADMM import ADMM
 from functions import RMSE
+from collections import namedtuple
 
 # use existing W to predict a new matrix W^(K+1)
 def new_W(W, X, Y, lags, Combine=False):
@@ -83,9 +84,63 @@ def TCP_analysis(X, Y, D, h, lam, rou, gamma, eps, lags):
     Y = Y[:,:(K-1)]
     
     res = ADMM(X, Y, D, h, lam, rou, gamma, eps)
-    W = res["optimized weights"]
+    W = res.Weights
     W_new = new_W(W, X, Y, lags)
     Y_pred = new_Y(W_new, X_new)
     
     return(RMSE(Y_pred - Y_truth))
     
+
+
+
+# pipeline everything into a class of model
+class TCP:
+    def __init__(self):
+        print("A TCP model is constructed.")
+    
+    def fit(self, X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-4)):
+        self.W = ADMM(X, Y, D, h, lam, rou, gamma, eps).Weights
+        self.X = X
+        self.Y = Y
+        self.D = D
+        self.h = h 
+        self.lam = lam 
+        self.rou = rou 
+        self.gamma = gamma 
+        self.eps = eps
+    
+    def get_params(self):
+        Coef = namedtuple("Coefficients", ["W","D","h","lam","rou","gamma","epsilon"])
+        return(Coef(self.W, self.D, self.h, self.lam, self.rou, self.gamma, self.eps))
+    
+    def predict(self, X_new, lags):
+        self.W_new = new_W(self.W, self.X, self.Y, lags)
+        self.pred = new_Y(self.W_new, X_new)
+    
+    def analysis(self, lags):
+        self.rmse = TCP_analysis(self.X, self.Y, self.D, self.h, self.lam, self.rou, self.gamma, self.eps, lags)
+    
+    def __del__(self):
+        print("This TCP model is destructed.")
+   
+   
+   
+   
+# test
+X = np.random.normal(loc=0, scale=1, size=(100,30,9))
+Y = np.random.rand(9,100)
+D = np.random.randint(1,5, (9,9))
+h = 1
+lam = 1
+rou = 2
+gamma = 0.01
+eps = 10**(-4)
+
+model = TCP()
+model.fit(X,Y,D,h,lam,rou,gamma,eps)
+coef = model.get_params()
+print(coef)
+model.predict(np.random.normal(loc=0, scale=1, size=(30,9)), lags=2)
+model.analysis(lags=2)
+print(model.pred)
+print(model.rmse)

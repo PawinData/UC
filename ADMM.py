@@ -7,7 +7,7 @@ from functions import generate_P, generate_Q, S
 
 
 
-def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-5)):
+def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-4)):
 	# X is a 3D array: X.shape = (K,M,N)
 	# Y is a 2D array: Y.shape = (N,K)
 	# D is an N-by-N distance matrix
@@ -79,7 +79,7 @@ def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-5)):
         V[:,:,n] = V[:,:,n] + W[:,:,n].transpose().dot(Q) - F[:,:,n]
         now = L(W, E, F, U, V)    # update the loss 
         num_iter += 1
-        
+   
     t2 = process_time()
     
     Results = namedtuple("Results", ["iterations", "Loss", "Weights", "time"])
@@ -89,10 +89,3 @@ def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-5)):
     
     return(res)
 
-
-# Test
-X = normal(loc=0, scale=1, size=(100,30,9))
-Y = normal(loc=0, scale=1, size=(9,100))
-D = rand(9,9)
-res = ADMM(X,Y,D)
-print(res)

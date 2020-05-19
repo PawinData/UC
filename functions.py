@@ -167,5 +167,11 @@ def S(A, alpha):
 def obtain_Features(path, start, end):
     D = pickle.load(open(path,"rb"))   # a dictionary of (date, feature dataframe)
     time_window = [day_to_str(day) for day in range(str_to_day(start), 1+str_to_day(end))]  # a list of dates
+    dimension = D[time_window[0]].shape
+    for date in time_window[1:]:
+        if not D[date].shape==demension:
+            print(date+": the feature dataframe is of incompatible shape.")
+            exit()
+        dimension = D[date].shape
     X = np.array([D[date].to_numpy() for date in time_window])
     return(X)
