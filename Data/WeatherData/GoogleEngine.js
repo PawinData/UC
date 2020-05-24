@@ -57,15 +57,15 @@ print(tempTimeSeries)
 // Map.addLayer(temperature, temperatureVis, 'Temperature');
 
 var regions = ee.FeatureCollection([
-  ee.Feature(ee.Geometry.Point(-123.032229, 37.727239), {label: 'San Francisco'}),
-  // ee.Feature(ee.Geometry.Point(-122.325995, 38.507351), {label: 'Napa'}),
-  // ee.Feature(ee.Geometry.Point(-121.690622, 37.220777), {label: 'Santa Clara'}),
-  // ee.Feature(ee.Geometry.Point(-122.945194, 38.532574), {label: 'Sonoma'}),
-  // ee.Feature(ee.Geometry.Point(-121.913304, 37.648081), {label: 'Alameda'}),
-  // ee.Feature(ee.Geometry.Point(-122.371542, 37.414664), {label: 'San Mateo'}),
-  // ee.Feature(ee.Geometry.Point(-121.939594, 38.267226), {label: 'Solano'}),
-  // ee.Feature(ee.Geometry.Point(-121.951543, 37.919479), {label: 'Contra Costa'}),
-  // ee.Feature(ee.Geometry.Point(-122.745974, 38.051817), {label: 'Marin'})    
+  ee.Feature(ee.Geometry.Point(-122.418433, 37.779379), {label: 'San Francisco'}),
+  ee.Feature(ee.Geometry.Point(-122.325995, 38.507351), {label: 'Napa'}),
+  ee.Feature(ee.Geometry.Point(-121.690622, 37.220777), {label: 'Santa Clara'}),
+  ee.Feature(ee.Geometry.Point(-122.945194, 38.532574), {label: 'Sonoma'}),
+  ee.Feature(ee.Geometry.Point(-121.913304, 37.648081), {label: 'Alameda'}),
+  ee.Feature(ee.Geometry.Point(-122.371542, 37.414664), {label: 'San Mateo'}),
+  ee.Feature(ee.Geometry.Point(-121.939594, 38.267226), {label: 'Solano'}),
+  ee.Feature(ee.Geometry.Point(-121.951543, 37.919479), {label: 'Contra Costa'}),
+  ee.Feature(ee.Geometry.Point(-122.745974, 38.051817), {label: 'Marin'})    
 ]);
 
 var select = 'specific_humidity'
