@@ -79,13 +79,13 @@ def TCP_analysis(X, Y, D, h, lam, rou, gamma, eps, lags):
         print("Y:", Y.shape)
     
     X_new = X[-1,:,:]
-    X = X[:(K-1),:,:]
+    XX = X[:(K-1),:,:]
     Y_truth = Y[:,-1]
-    Y = Y[:,:(K-1)]
+    YY = Y[:,:(K-1)]
     
-    res = ADMM(X, Y, D, h, lam, rou, gamma, eps)
+    res = ADMM(XX, YY, D, h, lam, rou, gamma, eps)
     W = res.Weights
-    W_new = new_W(W, X, Y, lags)
+    W_new = new_W(W, XX, YY, lags)
     Y_pred = new_Y(W_new, X_new)
     
     return(RMSE(Y_pred - Y_truth))
@@ -126,21 +126,3 @@ class TCP:
    
    
    
-# test
-X = np.random.normal(loc=0, scale=1, size=(100,30,9))
-Y = np.random.rand(9,100)
-D = np.random.randint(1,5, (9,9))
-h = 1
-lam = 1
-rou = 2
-gamma = 0.01
-eps = 10**(-4)
-
-model = TCP()
-model.fit(X,Y,D,h,lam,rou,gamma,eps)
-coef = model.get_params()
-print(coef)
-model.predict(np.random.normal(loc=0, scale=1, size=(30,9)), lags=2)
-model.analysis(lags=2)
-print(model.pred)
-print(model.rmse)

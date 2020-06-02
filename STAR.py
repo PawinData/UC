@@ -28,11 +28,12 @@ def obj_func(Phi, Y, D, h):
     N,K = Y.shape
     c = Phi[0] * np.ones((N,1))
     
-    # transform D
+    # transform distance matrix
+    DD = D.copy()
     for i in range(N):
         for j in range(N):
-            if not D[i,j]==0:
-                D[i,j] = float(D[i,j])**(-h)
+            if not DD[i,j]==0:
+                DD[i,j] = float(DD[i,j])**(-h)
     
     loss = 0
     for j in range(T,K):
@@ -40,7 +41,7 @@ def obj_func(Phi, Y, D, h):
         v = y - c 
         for tau in range(1,T+1):
             y = Y[:, j-tau].reshape((N,1))
-            v = v - Phi[tau] * D.dot(y)
+            v = v - Phi[tau] * DD.dot(y)
         loss += norm(v)
     return(loss / (K-T))
     
@@ -84,8 +85,8 @@ def STAR_analysis(Y, D, T, h):
         exit() 
     K = Y.shape[1]
     Y_true = Y[:,-1]
-    Y = Y[:,:K-1]
-    Y_pred = STAR_predict(Y, D, Phi=STAR_pm(Y,D,T,h)).flatten()
+    YY = Y[:,:K-1]
+    Y_pred = STAR_predict(YY, D, Phi=STAR_pm(YY,D,T,h)).flatten()
     return(RMSE(Y_pred - Y_true))
     
     
@@ -117,22 +118,5 @@ class STAR:
     def __del__(self):
         print("This STAR model is destructed.")
     
-        
-       
-# test
-Y = np.random.rand(9,100)
-D = np.random.randint(0,5,(9,9))
-h = 1
-T = 2
-Phi = STAR_pm(Y,D,T,h)
-print(Phi)
-model = STAR()
-model.fit(Y,D,h,T)
-phi = model.get_params()
-print(phi)
-model.predict()
-model.analysis()
-print(model.coef)
-print(model.pred)
-print(model.rmse)
+
     
