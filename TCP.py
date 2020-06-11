@@ -71,7 +71,7 @@ def new_Y(W_new, X_new):
 
 # predict the final day with previous days
 # output RMSE of prediction
-def TCP_analysis(X, Y, D, h, lam, rou, gamma, eps, lags):
+def TCP_analysis(X, Y, D, h, lam, lags, rou, gamma, eps):
     K,M,N = X.shape
     if not Y.shape==(N,K):
         print("Shapes of X and Y are incompatible.")
@@ -118,7 +118,7 @@ class TCP:
         self.pred = new_Y(self.W_new, X_new)
     
     def analysis(self, lags):
-        self.rmse = TCP_analysis(self.X, self.Y, self.D, self.h, self.lam, self.rou, self.gamma, self.eps, lags)
+        self.rmse = TCP_analysis(self.X, self.Y, self.D, self.h, self.lam, lags, self.rou, self.gamma, self.eps)
     
     def __del__(self):
         print("This TCP model is destructed.")

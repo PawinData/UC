@@ -5,16 +5,16 @@ from time import process_time
 from collections import namedtuple
 from functions import generate_P, generate_Q, S
 
+# find optimized weights: W
 
-
-def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-4)):
+def ADMM(X, Y, D, h=1, lam=1, rou=1, gamma=0.001, eps=10**(-8)):
 	# X is a 3D array: X.shape = (K,M,N)
 	# Y is a 2D array: Y.shape = (N,K)
 	# D is an N-by-N distance matrix
 	# h is non-negative, controlling the degree of spatial correlation
 	# lam is non-negative, controlling the contribution of intra-region temporal correlation
 	# rou >= 0 penalizes the deviation of E from W^k*P and F from W_n*Q
-	# gamma >= 0 is the learning rate
+	# gamma >= 0 is the learning rate (step)
 	# eps >= 0 is the threshold of significance
     
     t1 = process_time()
@@ -60,12 +60,18 @@ def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-4)):
 
     
     pre = 0     # initialize parameters
-    W = normal(loc=0, scale=1, size=(K,M,N))
-    E = normal(loc=0, scale=1, size=(K, M, N**2))
-    U = normal(loc=0, scale=1, size=(K, M, N**2))
-    F = normal(loc=0, scale=1, size=(M, K-1, N))
-    V = normal(loc=0, scale=1, size=(M, K-1, N))
-    now = L(W, E, F, U, V)
+    lst = list()
+    sigma = 1
+    for j in range(100):
+        W_sim = normal(loc=0, scale=sigma, size=(K,M,N))
+        E_sim = normal(loc=0, scale=sigma, size=(K, M, N**2))
+        U_sim = normal(loc=0, scale=sigma, size=(K, M, N**2))
+        F_sim = normal(loc=0, scale=sigma, size=(M, K-1, N))
+        V_sim = normal(loc=0, scale=sigma, size=(M, K-1, N))
+        lst.append((L(W_sim, E_sim, F_sim, U_sim, V_sim), (W_sim, E_sim, U_sim, F_sim, V_sim)))
+    lst.sort()
+    now, (W, E, U, F, V) = lst[0]
+    del lst, W_sim, E_sim, U_sim, F_sim, V_sim
     
     num_iter = 0
     while norm(pre - now) >= eps and num_iter<1000*N*K:
@@ -85,7 +91,6 @@ def ADMM(X, Y, D, h=1, lam=1, rou=2, gamma=0.01, eps=10**(-4)):
     Results = namedtuple("Results", ["iterations", "Loss", "Weights", "time"])
     res = Results(num_iter, now, W, t2-t1)
     
-    #results = {"iterations":num_iter, "optimized loss":now, "optimized weights":W, "time":(t2-t1)}
-    
     return(res)
+
 
