@@ -19,10 +19,12 @@ This project has been added to Data Lake of [CoronaWhy](https://www.coronawhy.or
 
 7. To review the preliminary analysis of this study, go to [Proposal.pdf](https://github.com/PawinData/UC/blob/SFBA/Proposal.pdf) and [Temporal_Spatial_validated.ipynb](https://github.com/PawinData/UC/blob/SFBA/Temporal_Spatial_validated.ipynb)
 
-                    |--- Features X
-                    |--- Targets Y
-                    |--- Distance matrix D
-        |--- TCP ---|--- Optimization algorithm ADMM
-main ---|
-        |--- STAR---|--- Targets Y
-                    |--- Distance matrix D
+       |--- Features X                  ---|
+       |--- Targets Y                   ---|
+       |--- Distance matrix D           ---|
+       |--- Optimization algorithm ADMM ---|--- TCP ---|
+                                                       |
+                                                       |--- main
+                                                       |
+       |--- Targets Y                   ---|--- STAR---|
+       |--- Distance matrix D           ---|
