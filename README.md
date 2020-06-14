@@ -19,9 +19,8 @@ This project has been added to Data Lake of [CoronaWhy](https://www.coronawhy.or
 
 7. To review the preliminary analysis of this study, go to [Proposal.pdf](https://github.com/PawinData/UC/blob/SFBA/Proposal.pdf) and [Temporal_Spatial_validated.ipynb](https://github.com/PawinData/UC/blob/SFBA/Temporal_Spatial_validated.ipynb)
 
-[Mermaid syntax](https://mermaid-js.github.io/mermaid/#/)
-```mermaid
-graph TD
-A-->B;
-A-->C;
-```
+
+            
+               |--- [TCP.py](https://github.com/PawinData/UC/blob/SFBA/TCP.py)
+[main.ipynb](https://github.com/PawinData/UC/blob/SFBA/main.ipynb) ---|
+               |--- [STAR.py](https://github.com/PawinData/UC/blob/SFBA/STAR.py)
