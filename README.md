@@ -5,6 +5,18 @@ This is the course project for **Urban Computing** (Spring 2020) at LIACS, Leide
 
 This project has been added to Data Lake of [CoronaWhy](https://www.coronawhy.org/), a globally-distributed, volunteer-powered research organization trying to assist the medical community to answer key questions related to COVID-19.
 
+
+                               |--- Features X                  
+                               |--- Targets Y                   
+                               |--- Distance matrix D           
+                   |--- TCP ---|--- Optimization algorithm ADMM 
+                   |
+       |--- main---|                                               
+                   |
+                   |--- STAR---|--- Targets Y                  
+                               |--- Distance matrix D          
+                               
+                               
 1. Final table of TCP vs STAR performance analysis: [TCP_STAR.csv](https://github.com/PawinData/UC/blob/SFBA/TCP_STAR.csv)
 
 2. To reproduce the results, run [main.ipynb](https://github.com/PawinData/UC/blob/SFBA/main.ipynb)
@@ -18,13 +30,4 @@ This project has been added to Data Lake of [CoronaWhy](https://www.coronawhy.or
 6. Supporting datasets can be found in [AdjacencyMatrix.csv](https://github.com/PawinData/UC/blob/SFBA/AdjacencyMatrix.csv), [DistanceMatrix_shortestnetworks.csv](https://github.com/PawinData/UC/blob/SFBA/DistanceMatrix_shortestnetworks.csv), [DistanceMatrix_populous.csv](https://github.com/PawinData/UC/blob/SFBA/DistanceMatrix_populous.csv), and [INFO.csv](https://github.com/PawinData/UC/blob/SFBA/INFO.csv)
 
 7. To review the preliminary analysis of this study, go to [Proposal.pdf](https://github.com/PawinData/UC/blob/SFBA/Proposal.pdf) and [Temporal_Spatial_validated.ipynb](https://github.com/PawinData/UC/blob/SFBA/Temporal_Spatial_validated.ipynb)
-
-                               |--- Features X                  
-                               |--- Targets Y                   
-                               |--- Distance matrix D           
-                   |--- TCP ---|--- Optimization algorithm ADMM 
-                   |
-       |--- main---|                                               
-                   |
-                   |--- STAR---|--- Targets Y                  
-                               |--- Distance matrix D           
+ 
