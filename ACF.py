@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
 import numpy as np
-from random import choices
 from collections import deque
 from time import process_time
 from pickle import dump, load
