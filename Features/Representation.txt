@@ -1,0 +1,16 @@
+Representation 
+yyyy-mm-dd
+daily data
+
+County names like so:
+	Solano
+	Napa
+	San Francisco
+
+FourSquare
+2020-02-01 until 2020-05-17
+
+
+
+
+

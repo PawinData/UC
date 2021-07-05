@@ -1,11 +1,10 @@
-,Imperial,Kern,Los Angeles,Orange,Riverside,San Bernardino,San Diego,San Luis Obispo,Santa Barbara,Ventura
-Imperial,0,0,0,0,1,0,1,0,0,0
-Kern,0,0,1,0,0,1,0,1,1,1
-Los Angeles,0,1,0,1,0,1,0,0,0,1
-Orange,0,0,1,0,1,1,1,0,0,0
-Riverside,1,0,0,1,0,1,1,0,0,0
-San Bernardino,0,1,1,1,1,0,0,0,0,0
-San Diego,1,0,0,1,1,0,0,0,0,0
-San Luis Obispo,0,1,0,0,0,0,0,0,1,1
-Santa Barbara,0,1,0,0,0,0,0,1,0,1
-Ventura,0,1,1,0,0,0,0,1,1,0
+,Alameda,Contra Costa,Marin,Napa,San Francisco,San Mateo,Santa Clara,Solano,Sonoma
+Alameda,0,1,0,0,1,1,1,0,0
+Contra Costa,1,0,1,0,1,0,0,1,0
+Marin,0,1,0,0,1,0,0,0,1
+Napa,0,0,0,0,0,0,0,1,1
+San Francisco,1,1,1,0,0,1,0,0,0
+San Mateo,1,0,0,0,1,0,1,0,0
+Santa Clara,1,0,0,0,0,1,0,0,0
+Solano,0,1,0,1,0,0,0,0,0
+Sonoma,0,0,1,1,0,0,0,0,0
